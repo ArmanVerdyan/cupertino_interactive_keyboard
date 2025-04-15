@@ -45,10 +45,13 @@ class KeyboardManager {
     }
     
     userInfo[KeyboardManager.handledUserInfoKey] = true
-    userInfo[UIResponder.keyboardFrameBeginUserInfoKey] = userInfo[UIResponder.keyboardFrameBeginUserInfoKey]
-      .flatMap({ $0 as? NSValue }).map(adjustRect)
-    userInfo[UIResponder.keyboardFrameEndUserInfoKey] = userInfo[UIResponder.keyboardFrameEndUserInfoKey]
-      .flatMap({ $0 as? NSValue }).map(adjustRect)
+    if let beginValue = userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue {
+        userInfo[UIResponder.keyboardFrameBeginUserInfoKey] = adjustRect(beginValue)
+    }
+
+    if let endValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+        userInfo[UIResponder.keyboardFrameEndUserInfoKey] = adjustRect(endValue)
+    }
     
     return Notification(name: notification.name, object: notification.object, userInfo: userInfo)
   }
@@ -68,16 +71,6 @@ class KeyboardManager {
     
     let frame = CGRect(x: 0, y: locationInScreen.y, width: screen.bounds.width, height: screen.bounds.height - locationInScreen.y)
     
-    if(screen == nil) {
-        print("Error: screen is nil")
-        return
-    }
-
-    if(frame == nil) {
-        print("Error: frame is nil")
-        return
-    }
-
     NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: screen, userInfo: [
         UIResponder.keyboardFrameBeginUserInfoKey: NSValue(cgRect: frame),
         UIResponder.keyboardFrameEndUserInfoKey: NSValue(cgRect: frame),
