@@ -70,10 +70,12 @@ class KeyboardManager {
     let locationInScreen = gestureView.convert(locationInScrollView, to: screen.coordinateSpace)
     
     let frame = CGRect(x: 0, y: locationInScreen.y, width: screen.bounds.width, height: screen.bounds.height - locationInScreen.y)
+
+    let frameValue = NSValue(cgRect: frame)
     
     NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: screen, userInfo: [
-        UIResponder.keyboardFrameBeginUserInfoKey: NSValue(cgRect: frame),
-        UIResponder.keyboardFrameEndUserInfoKey: NSValue(cgRect: frame),
+        UIResponder.keyboardFrameBeginUserInfoKey: frameValue,
+        UIResponder.keyboardFrameEndUserInfoKey: frameValue,
     ])
   }
 }
