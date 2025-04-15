@@ -33,6 +33,7 @@ extension UIResponder {
   
   @objc
   dynamic fileprivate var cik_inputAccessoryView: UIView? {
+    // Return cached input view if it exists
     if let inputView = cachedInputAccessoryView {
       return inputView
     } else if
@@ -40,10 +41,13 @@ extension UIResponder {
       let plugin = CupertinoInteractiveKeyboardPlugin.instance(for: vc)
     {
       let inputView = plugin.inputView
-//      inputView.layer.borderColor = UIColor.green.cgColor
-//      inputView.layer.borderWidth = 2
-      cachedInputAccessoryView = inputView
-      return inputView
+      // Only cache and return the input view if it's not nil
+      if inputView != nil {
+        cachedInputAccessoryView = inputView
+        return inputView
+      } else {
+        return nil
+      }
     } else {
       return nil
     }
