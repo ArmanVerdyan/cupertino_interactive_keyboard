@@ -71,6 +71,10 @@ class KeyboardManager {
     
     let frame = CGRect(x: 0, y: locationInScreen.y, width: screen.bounds.width, height: screen.bounds.height - locationInScreen.y)
 
+    guard !frame.isNull, !frame.isInfinite, !frame.origin.y.isNaN, !frame.size.height.isNaN else {
+      return
+    }
+    
     let frameValue = NSValue(cgRect: frame)
     
     NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: screen, userInfo: [
