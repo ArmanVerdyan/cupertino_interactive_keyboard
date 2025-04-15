@@ -78,18 +78,10 @@ class KeyboardManager {
         return
     }
 
-    if let screen = screen, let frame = frame {
-        NotificationCenter.default.post(
-            name: UIResponder.keyboardWillChangeFrameNotification,
-            object: screen,
-            userInfo: [
-                UIResponder.keyboardFrameBeginUserInfoKey: NSValue(cgRect: frame),
-                UIResponder.keyboardFrameEndUserInfoKey: NSValue(cgRect: frame)
-            ]
-        )
-    } else {
-        print("Error: screen or frame is nil")
-    }
+    NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: screen, userInfo: [
+        UIResponder.keyboardFrameBeginUserInfoKey: NSValue(cgRect: frame),
+        UIResponder.keyboardFrameEndUserInfoKey: NSValue(cgRect: frame),
+    ])
   }
 }
 
