@@ -16,18 +16,30 @@ private let swizzleFlutterViewControllerOnce: Bool = ({
 })()
 
 extension FlutterViewController {
-  @objc
-  dynamic fileprivate func cik_keyboardWillChangeFrame(_ notification: Notification?) {
-    cik_keyboardWillChangeFrame(notification.map(KeyboardManager.shared.adjustKeyboardNotification(_:)))
-  }
-  
-  @objc
-  dynamic fileprivate func cik_keyboardWillBeHidden(_ notification: Notification?) {
-    cik_keyboardWillBeHidden(notification.map(KeyboardManager.shared.adjustKeyboardNotification(_:)))
-  }
-  
-  @objc
-  dynamic fileprivate func cik_keyboardWillShowNotification(_ notification: Notification?) {
-    cik_keyboardWillShowNotification(notification.map(KeyboardManager.shared.adjustKeyboardNotification(_:)))
-  }
+    @objc
+    dynamic fileprivate func cik_keyboardWillChangeFrame(_ notification: Notification?) {
+      guard let notification = notification else {
+        return cik_keyboardWillChangeFrame(nil)
+      }
+      let adjusted = KeyboardManager.shared.adjustKeyboardNotification(notification)
+      cik_keyboardWillChangeFrame(adjusted)
+    }
+
+    @objc
+    dynamic fileprivate func cik_keyboardWillBeHidden(_ notification: Notification?) {
+      guard let notification = notification else {
+        return cik_keyboardWillBeHidden(nil)
+      }
+      cik_keyboardWillBeHidden(KeyboardManager.shared.adjustKeyboardNotification(notification))
+    }
+
+    @objc
+    dynamic fileprivate func cik_keyboardWillShowNotification(_ notification: Notification?) {
+      guard let notification = notification else {
+        return cik_keyboardWillShowNotification(nil)
+      }
+      cik_keyboardWillShowNotification(KeyboardManager.shared.adjustKeyboardNotification(notification))
+    }
+
 }
+
