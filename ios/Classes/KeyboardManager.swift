@@ -70,10 +70,12 @@ class KeyboardManager {
     
     if(screen == nil) {
         print("Error: screen is nil")
+        return
     }
 
     if(frame == nil) {
         print("Error: frame is nil")
+        return
     }
 
     if let screen = screen, let frame = frame {
